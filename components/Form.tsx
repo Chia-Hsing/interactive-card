@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Action } from '../store/actions'
 import { CardState } from '../store/reducers'
 import { FieldKeys, FormFieldRefs } from './main'
-import { UpdateCardFlipActionTypes } from '../store/actionTypes'
+import { UpdateCardFlipActionTypes, CardActionTypes } from '../store/actionTypes'
 
 interface FormProps extends CardState, FormFieldRefs {
     handleCardEleFocus: (p: FieldKeys) => void
@@ -33,6 +33,10 @@ const Form: React.FC<FormProps> = ({ dispatch, children }) => {
         setYear(yearsArr)
     }, [])
 
+    const handleInputChange = (action: keyof typeof CardActionTypes, value: string): void => {
+        dispatch({ type: CardActionTypes[action], payload: value })
+    }
+
     const onCvvFocus = () => {
         dispatch({ type: UpdateCardFlipActionTypes.updateCardFlip, payload: true })
     }
@@ -49,7 +53,13 @@ const Form: React.FC<FormProps> = ({ dispatch, children }) => {
                     <label htmlFor="cardNumber" className="card-input__label">
                         Card Number
                     </label>
-                    <input type="tel" name="cardNumber" className="card-input__input" autoComplete="off" />
+                    <input
+                        type="tel"
+                        name="cardNumber"
+                        className="card-input__input"
+                        autoComplete="off"
+                        onChange={(e) => handleInputChange('updateCardNumber', e.target.value)}
+                    />
                 </div>
 
                 <div className="card-input">
