@@ -5,10 +5,10 @@ import Form from './Form'
 import { reducer, initState } from '../store/reducers'
 import { CurrentFocusedEleActionTypes } from '../store/actionTypes'
 
-export type FieldKeys = 'cardNumber' | 'cardHolder' | 'cardDate' | 'cardCvv'
+export type FieldKeys = 'cardNumberRef' | 'cardHolderRef' | 'cardDateRef' | 'cardCvvRef'
 
 export type FormFieldRefs = {
-    [key in FieldKeys]: React.RefObject<HTMLInputElement>
+    [key in FieldKeys]: React.RefObject<HTMLInputElement> | React.RefObject<HTMLSelectElement>
 }
 
 export type CardEleRefs = {
@@ -19,17 +19,17 @@ const Main: React.FC = () => {
     const [cardState, dispatch] = useReducer(reducer, initState)
 
     const formFiled: FormFieldRefs = {
-        cardNumber: useRef<HTMLInputElement>(null),
-        cardHolder: useRef<HTMLInputElement>(null),
-        cardDate: useRef<HTMLInputElement>(null),
-        cardCvv: useRef<HTMLInputElement>(null),
+        cardNumberRef: useRef<HTMLInputElement>(null),
+        cardHolderRef: useRef<HTMLInputElement>(null),
+        cardDateRef: useRef<HTMLSelectElement>(null),
+        cardCvvRef: useRef<HTMLInputElement>(null),
     }
 
     const cardElements: CardEleRefs = {
-        cardNumber: useRef<HTMLDivElement>(null),
-        cardHolder: useRef<HTMLDivElement>(null),
-        cardDate: useRef<HTMLDivElement>(null),
-        cardCvv: useRef<HTMLDivElement>(null),
+        cardNumberRef: useRef<HTMLDivElement>(null),
+        cardHolderRef: useRef<HTMLDivElement>(null),
+        cardDateRef: useRef<HTMLDivElement>(null),
+        cardCvvRef: useRef<HTMLDivElement>(null),
     }
 
     const handleFocusField = (key: FieldKeys): void => {
@@ -60,9 +60,10 @@ const Main: React.FC = () => {
     }
 
     return (
-        <div>
-            <Card {...CardProps} />
-            <Form {...FormProps} />
+        <div className="wrapper">
+            <Form {...FormProps}>
+                <Card {...CardProps} />
+            </Form>
         </div>
     )
 }
